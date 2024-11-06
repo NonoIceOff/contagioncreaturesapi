@@ -6,21 +6,25 @@ class Attack extends Model {
     return 'attacks';
   }
 
-  static get jsonSchema() {
+  static get relationMappings() {
+    const Creature = require('./Creature');
+    const CreatureAttack = require('./CreatureAttack');
+
     return {
-      type: 'object',
-      required: ['name', 'value'],
-      properties: {
-        id: { type: 'integer' },
-        name: { type: 'string', maxLength: 100 },
-        icon: { type: 'string', maxLength: 255 },
-        description: { type: 'string' },
-        value: { type: 'integer' },
-        mode: { type: 'string', maxLength: 50 },
-        difficulty: { type: 'string', maxLength: 50 },
-        type: { type: 'string', maxLength: 50 }
-      }
+      creatures: {
+        relation: Model.ManyToManyRelation,
+        modelClass: Creature,
+        join: {
+          from: 'attacks.id',
+          through: {
+            from: 'creature_attacks.id_attack',
+            to: 'creature_attacks.id_creature',
+          },
+          to: 'creatures.id',
+        },
+      },
     };
   }
 }
+
 module.exports = Attack;

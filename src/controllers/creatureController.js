@@ -1,6 +1,5 @@
 // controllers/CreatureController.js
 const Creature = require('../models/Creature');
-const Attack = require('../models/Attack');
 
 class CreatureController {
   static async getAllCreatures(req, res) {
@@ -50,14 +49,14 @@ class CreatureController {
 
   static async getAttacksByCreatureId(req, res) {
     try {
-      const attacks = await Attack.query()
-        .joinRelated('creature_attacks')
-        .where('creature_attacks.id_creature', req.params.id);
-      
-      if (attacks.length > 0) {
-        res.json(attacks);
+      const creature = await Creature.query()
+        .findById(req.params.id)
+        .withGraphFetched('attacks'); // Utilise la relation définie dans Creature
+
+      if (creature) {
+        res.json(creature.attacks); // Retourne uniquement les attaques
       } else {
-        res.status(404).json({ message: 'No attacks found for this creature' });
+        res.status(404).json({ message: 'Creature not found' });
       }
     } catch (error) {
       res.status(500).json({ error: error.message });

@@ -9,7 +9,6 @@ router.post('/', CreatureController.createCreature);
 router.put('/:id', CreatureController.updateCreature);
 router.delete('/:id', CreatureController.deleteCreature);
 
-// Nouvelle route pour obtenir les attaques d'une créature spécifique
 router.get('/:id/attacks', CreatureController.getAttacksByCreatureId);
 
 module.exports = router;
