@@ -1,12 +1,15 @@
 // routes/creatureRoutes.js
 const express = require('express');
-const router = express.Router();
 const CreatureController = require('../controllers/creatureController');
+const router = express.Router();
 
 router.get('/', CreatureController.getAllCreatures);
 router.get('/:id', CreatureController.getCreatureById);
 router.post('/', CreatureController.createCreature);
-router.patch('/:id', CreatureController.updateCreature);
+router.put('/:id', CreatureController.updateCreature);
 router.delete('/:id', CreatureController.deleteCreature);
+
+// Nouvelle route pour obtenir les attaques d'une créature spécifique
+router.get('/:id/attacks', CreatureController.getAttacksByCreatureId);
 
 module.exports = router;

@@ -1,5 +1,6 @@
 // controllers/CreatureController.js
 const Creature = require('../models/Creature');
+const Attack = require('../models/Attack');
 
 class CreatureController {
   static async getAllCreatures(req, res) {
@@ -42,6 +43,22 @@ class CreatureController {
     try {
       await Creature.query().deleteById(req.params.id);
       res.status(204).send();
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  }
+
+  static async getAttacksByCreatureId(req, res) {
+    try {
+      const attacks = await Attack.query()
+        .joinRelated('creature_attacks')
+        .where('creature_attacks.id_creature', req.params.id);
+      
+      if (attacks.length > 0) {
+        res.json(attacks);
+      } else {
+        res.status(404).json({ message: 'No attacks found for this creature' });
+      }
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
