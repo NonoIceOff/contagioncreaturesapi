@@ -24,6 +24,7 @@ const questStadeRoutes = require('./routes/questStadeRoutes');
 const dialogueRoutes = require('./routes/dialogueRoutes');
 const dialoguePieceRoutes = require('./routes/dialoguePieceRoutes');
 const pnjRoutes = require('./routes/pnjRoutes');
+const dropRoutes = require('./routes/dropRoutes');
 
 // Utiliser les routes
 app.use('/api/creatures', creaturesRoutes);
@@ -35,6 +36,7 @@ app.use('/api/quest-stages', questStadeRoutes);
 app.use('/api/dialogues', dialogueRoutes);
 app.use('/api/dialogue-pieces', dialoguePieceRoutes);
 app.use('/api/pnjs', pnjRoutes);
+app.use('/api', dropRoutes);
 
 // Gestion des erreurs
 app.use((err, req, res, next) => {
